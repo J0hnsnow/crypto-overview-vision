@@ -4,6 +4,8 @@ import { fetchTopAssets } from '../services/coinCapApi';
 import { Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 const AssetList = () => {
   const [sortBy, setSortBy] = useState('rank');
@@ -27,7 +29,7 @@ const AssetList = () => {
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
-      <h1 className="futuristic-title">Top Crypto Assets</h1>
+      <h1 className="futuristic-title">Track Top 100 Crypto Currencies</h1>
       <div className="flex gap-4 mb-4">
         <Input
           type="text"
@@ -49,14 +51,38 @@ const AssetList = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredAssets.map((asset) => (
-          <Link key={asset.id} to={`/asset/${asset.id}`} className="block">
-            <div className="futuristic-card p-4 h-full">
-              <h2 className="text-lg font-bold futuristic-text truncate">{asset.name} ({asset.symbol})</h2>
-              <p className="futuristic-text text-sm">Rank: {asset.rank}</p>
-              <p className="futuristic-text text-sm">Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
-              <p className="futuristic-text text-sm truncate">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
+          <div key={asset.id} className="futuristic-card p-4 h-full relative">
+            <span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
+              Rank: {asset.rank}
+            </span>
+            <h2 className="text-lg font-bold futuristic-text truncate mt-6">{asset.name} ({asset.symbol})</h2>
+            <p className="futuristic-text text-sm">Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+            <p className="futuristic-text text-sm truncate">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
+            <div className="mt-4 flex justify-between items-center">
+              <Link to={`/asset/${asset.id}`} className="futuristic-button text-sm">
+                View Details
+              </Link>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="futuristic-button text-sm">Learn More</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] futuristic-card">
+                  <DialogHeader>
+                    <DialogTitle className="futuristic-text">{asset.name} ({asset.symbol})</DialogTitle>
+                  </DialogHeader>
+                  <div className="futuristic-text">
+                    <p>Rank: {asset.rank}</p>
+                    <p>Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+                    <p>Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
+                    <p>24h Volume: ${parseFloat(asset.volumeUsd24Hr).toFixed(2)}</p>
+                    <p>Supply: {parseFloat(asset.supply).toFixed(0)} {asset.symbol}</p>
+                    <p>Max Supply: {asset.maxSupply ? parseFloat(asset.maxSupply).toFixed(0) : 'N/A'}</p>
+                    <p>% Change (24h): {parseFloat(asset.changePercent24Hr).toFixed(2)}%</p>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
