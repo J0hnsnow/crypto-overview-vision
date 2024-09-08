@@ -72,5 +72,23 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Arial', sans-serif;
   }
+}
+
+/* Neo Brutalist Theme */
+.neo-brutalist {
+  @apply bg-yellow-100;
+}
+
+.neo-brutalist h1, .neo-brutalist h2 {
+  @apply font-bold text-black mb-4;
+}
+
+.neo-brutalist button, .neo-brutalist input, .neo-brutalist select {
+  @apply border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none transition-shadow;
+}
+
+.neo-brutalist a {
+  @apply text-blue-600 underline font-bold;
 }
