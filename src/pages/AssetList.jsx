@@ -26,7 +26,7 @@ const AssetList = () => {
     });
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <div className="p-4 max-w-7xl mx-auto">
       <h1 className="futuristic-title">Top Crypto Assets</h1>
       <div className="flex gap-4 mb-4">
         <Input
@@ -47,14 +47,14 @@ const AssetList = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredAssets.map((asset) => (
           <Link key={asset.id} to={`/asset/${asset.id}`} className="block">
-            <div className="futuristic-card p-4">
-              <h2 className="text-2xl font-bold futuristic-text">{asset.name} ({asset.symbol})</h2>
-              <p className="futuristic-text">Rank: {asset.rank}</p>
-              <p className="futuristic-text">Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
-              <p className="futuristic-text">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
+            <div className="futuristic-card p-4 h-full">
+              <h2 className="text-lg font-bold futuristic-text truncate">{asset.name} ({asset.symbol})</h2>
+              <p className="futuristic-text text-sm">Rank: {asset.rank}</p>
+              <p className="futuristic-text text-sm">Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+              <p className="futuristic-text text-sm truncate">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
             </div>
           </Link>
         ))}

@@ -15,7 +15,7 @@ const App = () => (
       <BrowserRouter>
         <div className="futuristic">
           <header className="bg-black bg-opacity-50 text-blue-300 p-4">
-            <h1 className="text-3xl font-bold">GFCTracket</h1>
+            <h1 className="text-3xl font-bold">GFCTracker</h1>
           </header>
           <main className="container mx-auto p-4">
             <Routes>
