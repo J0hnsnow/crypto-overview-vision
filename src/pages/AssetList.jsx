@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchTopAssets } from '../services/coinCapApi';
+import { fetchTopAssets, fetchUsdToKshRate } from '../services/coinCapApi';
 import { Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,11 +10,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 const AssetList = () => {
   const [sortBy, setSortBy] = useState('rank');
   const [searchTerm, setSearchTerm] = useState('');
+  const [usdToKshRate, setUsdToKshRate] = useState(null);
 
   const { data: assets, isLoading, error } = useQuery({
     queryKey: ['topAssets'],
     queryFn: () => fetchTopAssets(100),
   });
+
+  useEffect(() => {
+    const getExchangeRate = async () => {
+      try {
+        const rate = await fetchUsdToKshRate();
+        setUsdToKshRate(rate);
+      } catch (error) {
+        console.error('Failed to fetch exchange rate:', error);
+      }
+    };
+    getExchangeRate();
+  }, []);
 
   if (isLoading) return <div className="text-center p-4 futuristic-text">Loading...</div>;
   if (error) return <div className="text-center p-4 text-red-500">Error: {error.message}</div>;
@@ -56,7 +69,12 @@ const AssetList = () => {
               Rank: {asset.rank}
             </span>
             <h2 className="text-lg font-bold futuristic-text truncate mt-6">{asset.name} ({asset.symbol})</h2>
-            <p className="futuristic-text text-sm">Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+            <p className="futuristic-text text-sm">Price (USD): ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+            {usdToKshRate && (
+              <p className="futuristic-text text-sm">
+                Price (KSH): {(parseFloat(asset.priceUsd) * usdToKshRate).toFixed(2)} KSH
+              </p>
+            )}
             <p className="futuristic-text text-sm truncate">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
             <div className="mt-4 flex justify-between items-center">
               <Link to={`/asset/${asset.id}`} className="futuristic-button text-sm">
@@ -72,7 +90,10 @@ const AssetList = () => {
                   </DialogHeader>
                   <div className="futuristic-text">
                     <p>Rank: {asset.rank}</p>
-                    <p>Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+                    <p>Price (USD): ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+                    {usdToKshRate && (
+                      <p>Price (KSH): {(parseFloat(asset.priceUsd) * usdToKshRate).toFixed(2)} KSH</p>
+                    )}
                     <p>Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
                     <p>24h Volume: ${parseFloat(asset.volumeUsd24Hr).toFixed(2)}</p>
                     <p>Supply: {parseFloat(asset.supply).toFixed(0)} {asset.symbol}</p>
