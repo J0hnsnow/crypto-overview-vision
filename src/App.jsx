@@ -13,8 +13,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <BrowserRouter>
-        <div className="neo-brutalist min-h-screen">
-          <header className="bg-black text-white p-4">
+        <div className="futuristic">
+          <header className="bg-black bg-opacity-50 text-blue-300 p-4">
             <h1 className="text-3xl font-bold">GFCTracket</h1>
           </header>
           <main className="container mx-auto p-4">

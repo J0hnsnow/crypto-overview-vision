@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchTopAssets } from '../services/coinCapApi';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -15,7 +14,7 @@ const AssetList = () => {
     queryFn: () => fetchTopAssets(100),
   });
 
-  if (isLoading) return <div className="text-center p-4">Loading...</div>;
+  if (isLoading) return <div className="text-center p-4 futuristic-text">Loading...</div>;
   if (error) return <div className="text-center p-4 text-red-500">Error: {error.message}</div>;
 
   const filteredAssets = assets
@@ -28,17 +27,17 @@ const AssetList = () => {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6">Top Crypto Assets</h1>
+      <h1 className="futuristic-title">Top Crypto Assets</h1>
       <div className="flex gap-4 mb-4">
         <Input
           type="text"
           placeholder="Search assets..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-grow"
+          className="futuristic-input flex-grow"
         />
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="futuristic-select w-[180px]">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
@@ -51,11 +50,11 @@ const AssetList = () => {
       <div className="grid gap-4">
         {filteredAssets.map((asset) => (
           <Link key={asset.id} to={`/asset/${asset.id}`} className="block">
-            <div className="border-4 border-black p-4 hover:bg-gray-100 transition-colors">
-              <h2 className="text-2xl font-bold">{asset.name} ({asset.symbol})</h2>
-              <p>Rank: {asset.rank}</p>
-              <p>Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
-              <p>Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
+            <div className="futuristic-card p-4">
+              <h2 className="text-2xl font-bold futuristic-text">{asset.name} ({asset.symbol})</h2>
+              <p className="futuristic-text">Rank: {asset.rank}</p>
+              <p className="futuristic-text">Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+              <p className="futuristic-text">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
             </div>
           </Link>
         ))}

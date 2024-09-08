@@ -17,7 +17,7 @@ const AssetDetail = () => {
     queryFn: () => fetchAssetHistory(id),
   });
 
-  if (assetLoading || historyLoading) return <div className="text-center p-4">Loading...</div>;
+  if (assetLoading || historyLoading) return <div className="text-center p-4 futuristic-text">Loading...</div>;
   if (assetError || historyError) return <div className="text-center p-4 text-red-500">Error loading data</div>;
 
   const chartData = history.map(item => ({
@@ -27,22 +27,22 @@ const AssetDetail = () => {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6">{asset.name} ({asset.symbol})</h1>
-      <div className="border-4 border-black p-4 mb-6">
-        <p className="text-2xl">Current Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
-        <p>Rank: {asset.rank}</p>
-        <p>Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
-        <p>24h Volume: ${parseFloat(asset.volumeUsd24Hr).toFixed(2)}</p>
-        <p>Supply: {parseFloat(asset.supply).toFixed(0)} {asset.symbol}</p>
+      <h1 className="futuristic-title">{asset.name} ({asset.symbol})</h1>
+      <div className="futuristic-card p-4 mb-6">
+        <p className="text-2xl futuristic-text">Current Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
+        <p className="futuristic-text">Rank: {asset.rank}</p>
+        <p className="futuristic-text">Market Cap: ${parseFloat(asset.marketCapUsd).toFixed(2)}</p>
+        <p className="futuristic-text">24h Volume: ${parseFloat(asset.volumeUsd24Hr).toFixed(2)}</p>
+        <p className="futuristic-text">Supply: {parseFloat(asset.supply).toFixed(0)} {asset.symbol}</p>
       </div>
-      <div className="border-4 border-black p-4">
-        <h2 className="text-2xl font-bold mb-4">Price History</h2>
+      <div className="futuristic-card p-4">
+        <h2 className="text-2xl font-bold mb-4 futuristic-text">Price History</h2>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={chartData}>
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} />
+            <XAxis dataKey="date" stroke="#63b3ed" />
+            <YAxis stroke="#63b3ed" />
+            <Tooltip contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: '1px solid #63b3ed' }} />
+            <Line type="monotone" dataKey="price" stroke="#63b3ed" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </div>
