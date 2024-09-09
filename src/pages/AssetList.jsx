@@ -99,6 +99,8 @@ const AssetList = () => {
                     <p>Supply: {parseFloat(asset.supply).toFixed(0)} {asset.symbol}</p>
                     <p>Max Supply: {asset.maxSupply ? parseFloat(asset.maxSupply).toFixed(0) : 'N/A'}</p>
                     <p>% Change (24h): {parseFloat(asset.changePercent24Hr).toFixed(2)}%</p>
+                    <p>Established: {asset.firstHistoricalData ? new Date(asset.firstHistoricalData).toLocaleDateString() : 'N/A'}</p>
+                    <p>Type: {asset.type || 'N/A'}</p>
                   </div>
                 </DialogContent>
               </Dialog>

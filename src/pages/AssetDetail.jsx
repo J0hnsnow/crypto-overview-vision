@@ -1,8 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAssetDetails, fetchAssetHistory } from '../services/coinCapApi';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 const AssetDetail = () => {
   const { id } = useParams();
@@ -27,6 +29,11 @@ const AssetDetail = () => {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
+      <Link to="/">
+        <Button className="mb-4 futuristic-button">
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
+        </Button>
+      </Link>
       <h1 className="futuristic-title">{asset.name} ({asset.symbol})</h1>
       <div className="futuristic-card p-4 mb-6">
         <p className="text-2xl futuristic-text">Current Price: ${parseFloat(asset.priceUsd).toFixed(2)}</p>
